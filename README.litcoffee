@@ -31,7 +31,8 @@ Show me what I've been missing.
 
 ## Usage
 
-Once you've written your seed, `$ grow` should get the job done.
+Once you've written your seed, `$ grow` should get the job done. If you 
+need to get fancy, see [Parameters](#parameters), below.
 
     usage = """
     Usage: grow [--seedfile=FILE] [--temp-dir=DIR] [--dest=DIR]
@@ -121,12 +122,12 @@ We need to read from the filesystem, obviously.
 The `Gardener` object provides a sort of poor man's promise mechanism
 and separates the script into four(ish) steps: 
 
+    Gardener =
+
 * grow, which reads the seed and acts on it
 * download, which gets a URL
 * findFile, which looks for a single file in a given directory
 * processFile, which looks at a file's extension and decides what to do with it
-
-    Gardener =
 
 ### Read the Seed
 
