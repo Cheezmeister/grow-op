@@ -147,7 +147,11 @@ and separates the script into four(ish) steps:
 ### Read the Seed
 
       grow: ->
-        data = yaml.safeLoad fs.readFileSync "./#{params.seedfile}"
+        file = "./#{params.seedfile}"
+        if '-' in args._
+          file = "/dev/stdin"
+
+        data = yaml.safeLoad fs.readFileSync file
         apps = ({name: key, url: value} for key, value of data)
         apps.map (app) ->
           location = "#{params.tempDir}/#{app.name}"
@@ -238,7 +242,7 @@ ending in `.app`. When we finally get it, copy it over to the install
 dest and we're done.
 
           when 'app'
-            $ "cp -r #{filename} #{params.appDestination}"
+            $ "mv #{filename} #{params.appDestination}"
 
 What are you still reading for? This is just an entry point. Go get some
 exercise or something.
