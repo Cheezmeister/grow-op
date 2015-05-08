@@ -7,6 +7,9 @@ Grow-Op downloads MacOS Applications and stuffs them where they belong.
 It is inspired by, and complements, the excellent [Homebrew](http://brew.sh)
 project, which explicitly prefers to stick to command-line-land.
 
+It was written in a fit of rage over several nights before I discovered
+that [Cask](http://caskroom.io/) already did it the right way.
+
 It is horrifically untested and might eat your computer. Use at your own 
 risk. Don't say I didn't warn you.
 
@@ -31,7 +34,8 @@ Show me what I've been missing.
 
 ## Usage
 
-Once you've written your seed, `$ grow` should get the job done. If you 
+Write your seed. Digging up and maintaining links is up to you.
+After that, `$ grow` should get the job done. If you 
 need to get fancy, see [Parameters](#parameters), below.
 
     usage = """
@@ -104,24 +108,27 @@ typing when hacking out frankenscripts. It's a work in progress.
 
     args = yargs
       .usage usage
+      .options
 
 Seed location:
 
-      .alias        's',  'seedfile'
-      .default      's',  'seed.yaml'
-      .describe     's',  'Specify the seed to use'
+        s: {description: 'Specify the seed to use', alias: 'seedfile', default: 'seed.yaml'}
 
 Temporary folder:
 
-      .alias        't',  'temp-dir'
-      .default      't',  "/tmp/grow#{Date.now()}"
-      .describe     't',  'Specify the temp dir'
+        t: {description: 'Specify the temporary directory', alias: 'temp-dir', default: "/tmp/grow#{Date.now()}"}
 
 App Destination:
 
-      .alias        'd',  'dest'
-      .default      'd',  '/Applications'
-      .describe     'd',  'Destination for Applications'
+        d: {description: 'Destination for Applications', alias: 'dest', default: '/Applications'}
+
+      # .alias        's',  'seedfile'
+      # .default      's',  'seed.yaml'
+      # .describe     's',  'Specify the seed to use'
+
+      # .alias        't',  'temp-dir'
+      # .default      't',  "/tmp/grow#{Date.now()}"
+      # .describe     't',  'Specify the temp dir'
 
       .example      '$0 -s ~/.Seedfile',    'Read from .Seedfile in the home directory'
       .argv
@@ -130,6 +137,8 @@ App Destination:
       seedfile: args.seedfile
       tempDir: args.tempDir
       appDestination: args.dest
+
+    return yargs.showHelp()
 
 ## Application
 
